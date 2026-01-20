@@ -10,20 +10,22 @@
 
 <div class="container">
     <header class="main-header">
-    <h1 class="project-title">Niveles de procesamiento durante la codificación</h1>
-    <p class="author-info"><strong>Autora:</strong> María del Carmen Martín-Buro</p>
-    <p class="contact-info"><strong>Contacto:</strong> <a href="mailto:carmen.martinburo@urjc.es">carmen.martinburo@urjc.es</a></p>
-    
-    <div class="license">
-        <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">
-            <img alt="Licencia Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" />
-        </a>
-        <p>Esta obra está bajo una <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Licencia Creative Commons Atribución-NoComercial-CompartirIgual 4.0 Internacional</a>.</p>
-    </div>
-</header>
-<hr>
+        <h1 class="project-title">Niveles de procesamiento durante la codificación</h1>
+        <p class="author-info"><strong>Autora:</strong> María del Carmen Martín-Buro</p>
+        <p class="contact-info"><strong>Contacto:</strong> <a href="mailto:carmen.martinburo@urjc.es">carmen.martinburo@urjc.es</a></p>
+        
+        <div class="license">
+            <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">
+                <img alt="Licencia Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" />
+            </a>
+            <p>Esta obra está bajo una <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Licencia Creative Commons Atribución-NoComercial-CompartirIgual 4.0 Internacional</a>.</p>
+        </div>
+    </header>
+
+    <hr>
+
     <header>
-        <h1>Corrección de resultados</h1>
+        <h1>Corrección de resultados individuales</h1>
         <p>Introduce <strong>1</strong> (acierto) o <strong>0</strong> (error) para cada ítem.</p>
     </header>
 
@@ -34,82 +36,69 @@
                     <th>Ítem</th>
                     <th>Objetivo</th>
                     <th>¿Correcto?</th> 
+                </tr>
             </thead>
-            <tbody id="tabla-items"></tbody>
+            <tbody id="tabla-items">
+                </tbody>
         </table>
-
-        <button onclick="procesar()">Procesar y Ver Resultados</button>
+        <button onclick="procesarIndividual()">Calcular Rendimiento Individual</button>
     </section>
 
     <hr>
 
-<div id="resultado-seccion" style="margin-top: 20px; padding: 15px; background: #eef2f3; border-radius: 8px;">
-    <h3 id="condicionFinal" style="color: #2c3e50; text-align: center;">Esperando cálculos...</h3>
-</div>
-
-        <div class="results-grid">
-            <div class="table-wrapper">
-                <h2>Resumen del rendimiento individual</h2>
-                <table id="tabla-resultados">
-                    <thead>
-                        <tr>
-                            <th>Condición</th>
-                            <th>% Recuerdo</th>
-                            <th>Imágenes recordadas</th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
-            </div>
-
-            <section id="entrada-grupo">
-    <h2>Resultados del Grupo</h2>
-    <div class="group-inputs">
-        <div class="input-field">
-            <label>Condición 1 (%):</label>
-            <input type="number" id="cond1" value="0" min="0" max="100">
-        </div>
-        <div class="input-field">
-            <label>Condición 2 (%):</label>
-            <input type="number" id="cond2" value="0" min="0" max="100">
-        </div>
-        <div class="input-field">
-            <label>Condición 3 (%):</label>
-            <input type="number" id="cond3" value="0" min="0" max="100">
-        </div>
+    <div id="resultado-seccion" style="margin-top: 20px; padding: 15px; background: #eef2f3; border-radius: 8px;">
+        <h3 id="condicionFinal" style="color: #2c3e50; text-align: center;">Esperando cálculos...</h3>
     </div>
-</section>
 
-            <section class="seccion-grupo">
-    <h2>Resultados del Equipo</h2>
-    <div class="group-inputs">
-        <div class="input-field">
-            <label>Estudiante 1</label>
-            <input type="number" id="dato1" placeholder="%" min="0" max="100">
+    <div class="results-grid">
+        <div class="table-wrapper">
+            <h2>Resumen del rendimiento individual</h2>
+            <table id="tabla-resultados">
+                <thead>
+                    <tr>
+                        <th>Condición</th>
+                        <th>% Recuerdo</th>
+                        <th>Imágenes recordadas</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    </tbody>
+            </table>
         </div>
-        <div class="input-field">
-            <label>Estudiante 2</label>
-            <input type="number" id="dato2" placeholder="%" min="0" max="100">
-        </div>
-        <div class="input-field">
-            <label>Estudiante 3</label>
-            <input type="number" id="dato3" placeholder="%" min="0" max="100">
-        </div>
-    </div>
-    <button onclick="procesarGrupo()">Generar Gráfica Grupal</button>
-</section>
 
-            <div class="chart-wrapper">
-                <h2>Visualización de Datos</h2>
-                <div class="chart-container">
-                    <canvas id="grafica"></canvas>
+        <section class="seccion-grupo">
+            <h2>Comparativa del Equipo</h2>
+            <p style="text-align: center;">Introducid vuestros porcentajes finales para comparar:</p>
+            <div class="group-inputs">
+                <div class="input-field">
+                    <label>Estudiante 1 (%)</label>
+                    <input type="number" id="dato1" placeholder="0" min="0" max="100">
+                </div>
+                <div class="input-field">
+                    <label>Estudiante 2 (%)</label>
+                    <input type="number" id="dato2" placeholder="0" min="0" max="100">
+                </div>
+                <div class="input-field">
+                    <label>Estudiante 3 (%)</label>
+                    <input type="number" id="dato3" placeholder="0" min="0" max="100">
                 </div>
             </div>
+            <button onclick="procesarGrupo()">Generar Gráfica Grupal</button>
+        </section>
+
+        <div class="chart-wrapper">
+            <h2>Visualización de Datos</h2>
+            <div class="chart-container">
+                <canvas id="grafica"></canvas>
+            </div>
         </div>
-    </section>
+    </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
 <script src="script.js"></script>
 </body>
 </html>
