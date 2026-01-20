@@ -107,3 +107,27 @@ button:hover { background: #1a252f; }
     color: #2980b9;
     text-decoration: none;
 }
+
+.group-inputs {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin: 20px 0;
+}
+
+.input-field {
+    display: flex;
+    flex-direction: column;
+    font-weight: bold;
+    color: var(--primary);
+}
+
+.input-field input {
+    width: 100px;
+    padding: 10px;
+    margin-top: 5px;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    text-align: center;
+    font-size: 1.1rem;
+}
