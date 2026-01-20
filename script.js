@@ -91,4 +91,28 @@ function procesarGrupo() {
 }
 
 // Inicialización
-window.onload = renderizarTablaItems;
+function renderizarTablaItems() {
+    console.log("Cargando tabla..."); // Esto te confirmará en la consola que la función corre
+    const tbody = document.getElementById("tabla-items");
+    
+    if (!tbody) {
+        console.error("No se encontró el elemento 'tabla-items'");
+        return;
+    }
+
+    tbody.innerHTML = ""; // Limpia la tabla
+    
+    items.forEach((item, index) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td>${item.id}</td>
+            <td>${item.objetivo}</td>
+            <td><input type="number" min="0" max="1" id="resp-${index}" value="0" class="input-acierto"></td>
+        `;
+        tbody.appendChild(row);
+    });
+    console.log("Tabla cargada con " + items.length + " ítems.");
+}
+
+// Inicialización segura
+window.addEventListener("DOMContentLoaded", renderizarTablaItems);
