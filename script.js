@@ -67,7 +67,6 @@ function procesarGrupo() {
     chart = new Chart(ctx, {
         type: "bar",
         data: {
-            // CAMBIO: Ahora las etiquetas del eje X son Condiciones
             labels: ["Condición 1", "Condición 2", "Condición 3"],
             datasets: [{
                 data: [v1, v2, v3],
@@ -82,26 +81,17 @@ function procesarGrupo() {
                 y: { 
                     beginAtZero: true, 
                     max: 100,
-                    title: { display: true, text: '% de Recuerdo', font: { weight: 'bold' } },
+                    title: { 
+                        display: true, 
+                        text: '% de Recuerdo', 
+                        font: { weight: 'bold' } 
+                    },
                     ticks: { callback: v => v + "%" }
                 }
             },
             plugins: { 
                 legend: { 
-                    display: true,
-                    position: 'right', // Leyenda a la derecha
-                    labels: {
-                        generateLabels: (chart) => {
-                            const data = chart.data;
-                            return data.labels.map((label, i) => ({
-                                text: label,
-                                fillStyle: data.datasets[0].backgroundColor[i],
-                                strokeStyle: data.datasets[0].backgroundColor[i],
-                                lineWidth: 0,
-                                index: i
-                            }));
-                        }
-                    }
+                    display: false // LEYENDA ELIMINADA
                 } 
             }
         }
