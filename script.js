@@ -20,7 +20,7 @@ const items = [
     {id:19, objetivo:"mariposa"},
     {id:20, objetivo:"motorista"},
     {id:21, objetivo:"cañón"},
-    {id:22, objetivo:"lazo"},  
+    {id:22, objetivo:"lazo"}
 ];
 
 let chart = null;
@@ -35,73 +35,56 @@ function renderizarTablaItems() {
             <td>${item.id}</td>
             <td>${item.objetivo}</td>
             <td><input type="number" min="0" max="1" id="resp-${index}" value="0"></td>
-            <td><strong>${item.condicion.toUpperCase()}</strong></td>
         `;
         tbody.appendChild(row);
     });
 }
 
 function procesar() {
-    const resultados = { "rp+": 0, "rp-": 0, "nrp": 0 };
-    const totales = { "rp+": 0, "rp-": 0, "nrp": 0 };
+    let aciertosTotales = 0;
+    const totalItems = items.length;
 
     items.forEach((item, index) => {
         const valor = Number(document.getElementById(`resp-${index}`).value) || 0;
-        totales[item.condicion]++;
-        if (valor === 1) resultados[item.condicion]++;
+        if (valor === 1) aciertosTotales++;
     });
 
-    const nombresLargo = { 
-        "rp+": "Practicados (RP+)",
-        "nrp": "No practicados (NRP)",
-        "rp-": "No practicados pero Relacionados (RP-)"
-    };
-    const orden = ["rp+", "nrp", "rp-"];
+    const porcentajeGlobal = ((aciertosTotales / totalItems) * 100).toFixed(1);
 
+    // Mostrar resultado simple en el texto
+    const msjComp = document.getElementById("condicionFinal");
+    if (msjComp) {
+        msjComp.innerText = `Resultado Global: ${aciertosTotales} aciertos de ${totalItems} (${porcentajeGlobal}%)`;
+    }
+
+    // Actualizar Tabla de Resultados (con una sola fila)
     const tbodyRes = document.querySelector("#tabla-resultados tbody");
-    tbodyRes.innerHTML = "";
-    orden.forEach(c => {
-        const porc = Math.round((resultados[c] / totales[c]) * 100) || 0;
-        tbodyRes.innerHTML += `<tr><td>${nombresLargo[c]}</td><td>${porc}%</td><td>${resultados[c]} de ${totales[c]}</td></tr>`;
-    });
+    if (tbodyRes) {
+        tbodyRes.innerHTML = `
+            <tr>
+                <td>Recuerdo Total</td>
+                <td>${porcentajeGlobal}%</td>
+                <td>${aciertosTotales} de ${totalItems}</td>
+            </tr>
+        `;
+    }
 
-   // 1. Calculamos los porcentajes de cada una
-const porcentajeNRP = (resultados["nrp"] / totales["nrp"]) * 100 || 0;
-const porcentajeRPmin = (resultados["rp-"] / totales["rp-"]) * 100 || 0;
-
-// 2. Calculamos la diferencia
-const diferencia = (porcentajeNRP - porcentajeRPmin).toFixed(1);
-
-// 3. Mostramos el mensaje dinámico
-let mensajeComparacion = "";
-if (porcentajeNRP > porcentajeRPmin) {
-    mensajeComparacion = `Efecto RIF detectado: NRP (${porcentajeNRP.toFixed(1)}%) es mayor que RP- (${porcentajeRPmin.toFixed(1)}%) por una diferencia de ${diferencia} puntos.`;
-} else if (porcentajeNRP < porcentajeRPmin) {
-    mensajeComparacion = `No se observa el efecto esperado: NRP (${porcentajeNRP.toFixed(1)}%) es menor que RP- (${porcentajeRPmin.toFixed(1)}%). Diferencia: ${diferencia} puntos.`;
-} else {
-    mensajeComparacion = `Ambas condiciones son iguales (${porcentajeNRP.toFixed(1)}%). No hay diferencia detectable.`;
+    // Opcional: Dibujar una gráfica de una sola barra
+    dibujarGraficaSimple(porcentajeGlobal);
 }
 
-// 4. Lo pintamos en el HTML
-document.getElementById("condicionFinal").innerText = mensajeComparacion;
-
-    dibujarGrafica(resultados, totales, orden);
-}
-
-function dibujarGrafica(res, tot, orden) {
+function dibujarGraficaSimple(porcentaje) {
     const ctx = document.getElementById("grafica").getContext("2d");
     if (chart) chart.destroy();
-
-    const datosPorcentaje = orden.map(c => (res[c] / tot[c]) * 100 || 0);
 
     chart = new Chart(ctx, {
         type: "bar",
         data: {
-            // Aseguramos que las etiquetas coincidan con el orden de los datos
-            labels: ["Practicados (RP+)", "No Practicados (NRP)", "Relacionados (RP-)"],
+            labels: ["Recuerdo Total"],
             datasets: [{
-                data: datosPorcentaje,
-                backgroundColor: ["#A8E6CF", "#AEC6EF", "#FF8B94"], // RP+ (Verde), NRP (Azul), RP- (Rojo)
+                label: "% de Recuerdo",
+                data: [porcentaje],
+                backgroundColor: ["#AEC6EF"],
                 borderWidth: 1
             }]
         },
@@ -109,32 +92,10 @@ function dibujarGrafica(res, tot, orden) {
             responsive: true,
             maintainAspectRatio: false,
             scales: {
-                y: {
-                    beginAtZero: true,
-                    max: 100,
-                    title: {
-                        display: true,
-                        text: '% de Recuerdo', // AQUÍ ESTÁ EL TÍTULO
-                        color: '#2c3e50',
-                        font: {
-                            size: 14,
-                            weight: 'bold'
-                        }
-                    },
-                    ticks: {
-                        callback: function(value) { return value + "%"; }
-                    }
-                }
-            },
-            plugins: {
-                legend: { display: false }
+                y: { beginAtZero: true, max: 100, title: { display: true, text: '%' } }
             }
         }
     });
 }
 
-// Inicialización
-window.onload = renderizarTablaItems;
-
-// Inicialización
 window.onload = renderizarTablaItems;
