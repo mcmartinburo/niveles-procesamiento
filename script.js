@@ -40,24 +40,48 @@ function renderizarTablaItems() {
     });
 }
 
-function procesar() {
-    // 1. Obtener los valores de los tres estudiantes/condiciones
-    const c1 = parseFloat(document.getElementById("cond1").value) || 0;
-    const c2 = parseFloat(document.getElementById("cond2").value) || 0;
-    const c3 = parseFloat(document.getElementById("cond3").value) || 0;
+function procesarGrupo() {
+    // 1. Capturamos los valores de los 3 campos manuales
+    const valor1 = parseFloat(document.getElementById("dato1").value) || 0;
+    const valor2 = parseFloat(document.getElementById("dato2").value) || 0;
+    const valor3 = parseFloat(document.getElementById("dato3").value) || 0;
 
-    // 2. Actualizar el mensaje de texto (opcional)
+    // 2. Mostramos un resumen de texto
     const msj = document.getElementById("condicionFinal");
     if (msj) {
-        msj.innerText = `Resultados: C1 (${c1}%), C2 (${c2}%), C3 (${c3}%)`;
+        msj.innerText = `Comparativa Grupal: Estudiante 1 (${valor1}%), Estudiante 2 (${valor2}%), Estudiante 3 (${valor3}%)`;
     }
 
-    // 3. Quitar mensaje de espera
-    const espera = document.getElementById("mensaje-espera");
-    if (espera) espera.style.display = "none";
+    // 3. Dibujamos la gráfica con estos 3 valores exactos
+    const ctx = document.getElementById("grafica").getContext("2d");
+    if (chart) chart.destroy();
 
-    // 4. Dibujar la gráfica con estos 3 datos
-    dibujarGraficaGrupo(c1, c2, c3);
+    chart = new Chart(ctx, {
+        type: "bar",
+        data: {
+            labels: ["Estudiante 1", "Estudiante 2", "Estudiante 3"],
+            datasets: [{
+                label: "% de Recuerdo",
+                data: [valor1, valor2, valor3],
+                backgroundColor: ["#A8E6CF", "#AEC6EF", "#FF8B94"], // Colores pastel
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: { 
+                    beginAtZero: true, 
+                    max: 100,
+                    title: { display: true, text: '% de Recuerdo' }
+                }
+            },
+            plugins: {
+                legend: { display: false }
+            }
+        }
+    });
 }
 
 function dibujarGraficaGrupo(c1, c2, c3) {
