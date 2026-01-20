@@ -59,7 +59,7 @@ function procesarGrupo() {
     const v3 = parseFloat(document.getElementById("dato3").value) || 0;
 
     const msj = document.getElementById("condicionFinal");
-    msj.innerText = `Comparativa del Equipo: E1 (${v1}%) | E2 (${v2}%) | E3 (${v3}%)`;
+    msj.innerText = `Comparativa: C1 (${v1}%) | C2 (${v2}%) | C3 (${v3}%)`;
 
     const ctx = document.getElementById("grafica").getContext("2d");
     if (chart) chart.destroy();
@@ -67,6 +67,7 @@ function procesarGrupo() {
     chart = new Chart(ctx, {
         type: "bar",
         data: {
+            // CAMBIO: Ahora las etiquetas del eje X son Condiciones
             labels: ["Condición 1", "Condición 2", "Condición 3"],
             datasets: [{
                 data: [v1, v2, v3],
@@ -85,7 +86,24 @@ function procesarGrupo() {
                     ticks: { callback: v => v + "%" }
                 }
             },
-            plugins: { legend: { display: false } }
+            plugins: { 
+                legend: { 
+                    display: true,
+                    position: 'right', // Leyenda a la derecha
+                    labels: {
+                        generateLabels: (chart) => {
+                            const data = chart.data;
+                            return data.labels.map((label, i) => ({
+                                text: label,
+                                fillStyle: data.datasets[0].backgroundColor[i],
+                                strokeStyle: data.datasets[0].backgroundColor[i],
+                                lineWidth: 0,
+                                index: i
+                            }));
+                        }
+                    }
+                } 
+            }
         }
     });
 }
