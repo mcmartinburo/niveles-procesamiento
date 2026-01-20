@@ -41,33 +41,56 @@ function renderizarTablaItems() {
 }
 
 function procesar() {
-    let aciertosTotales = 0;
-    const totalItems = items.length;
+    // 1. Obtener los valores de los tres estudiantes/condiciones
+    const c1 = parseFloat(document.getElementById("cond1").value) || 0;
+    const c2 = parseFloat(document.getElementById("cond2").value) || 0;
+    const c3 = parseFloat(document.getElementById("cond3").value) || 0;
 
-    items.forEach((item, index) => {
-        const valor = Number(document.getElementById(`resp-${index}`).value) || 0;
-        if (valor === 1) aciertosTotales++;
+    // 2. Actualizar el mensaje de texto (opcional)
+    const msj = document.getElementById("condicionFinal");
+    if (msj) {
+        msj.innerText = `Resultados: C1 (${c1}%), C2 (${c2}%), C3 (${c3}%)`;
+    }
+
+    // 3. Quitar mensaje de espera
+    const espera = document.getElementById("mensaje-espera");
+    if (espera) espera.style.display = "none";
+
+    // 4. Dibujar la gráfica con estos 3 datos
+    dibujarGraficaGrupo(c1, c2, c3);
+}
+
+function dibujarGraficaGrupo(c1, c2, c3) {
+    const ctx = document.getElementById("grafica").getContext("2d");
+    if (chart) chart.destroy();
+
+    chart = new Chart(ctx, {
+        type: "bar",
+        data: {
+            labels: ["Condición 1", "Condición 2", "Condición 3"],
+            datasets: [{
+                label: "% de Recuerdo",
+                data: [c1, c2, c3],
+                backgroundColor: ["#A8E6CF", "#AEC6EF", "#FF8B94"], // Pastel: Verde, Azul, Rosa
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: { 
+                    beginAtZero: true, 
+                    max: 100,
+                    title: { display: true, text: '% de Recuerdo' }
+                }
+            },
+            plugins: {
+                legend: { display: false }
+            }
+        }
     });
-
-    const porcentajeGlobal = ((aciertosTotales / totalItems) * 100).toFixed(1);
-
-    // Mostrar resultado simple en el texto
-    const msjComp = document.getElementById("condicionFinal");
-    if (msjComp) {
-        msjComp.innerText = `Resultado Global: ${aciertosTotales} aciertos de ${totalItems} (${porcentajeGlobal}%)`;
-    }
-
-    // Actualizar Tabla de Resultados (con una sola fila)
-    const tbodyRes = document.querySelector("#tabla-resultados tbody");
-    if (tbodyRes) {
-        tbodyRes.innerHTML = `
-            <tr>
-                <td>Recuerdo Total</td>
-                <td>${porcentajeGlobal}%</td>
-                <td>${aciertosTotales} de ${totalItems}</td>
-            </tr>
-        `;
-    }
+}
 
     // Opcional: Dibujar una gráfica de una sola barra
     dibujarGraficaSimple(porcentajeGlobal);
