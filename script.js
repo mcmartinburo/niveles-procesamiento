@@ -67,7 +67,7 @@ function procesarGrupo() {
     chart = new Chart(ctx, {
         type: "bar",
         data: {
-            labels: ["Estudiante 1", "Estudiante 2", "Estudiante 3"],
+            labels: ["Condición 1", "Condición 2", "Condición 3"],
             datasets: [{
                 data: [v1, v2, v3],
                 backgroundColor: ["#A8E6CF", "#AEC6EF", "#FF8B94"],
