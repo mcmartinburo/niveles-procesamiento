@@ -1,12 +1,12 @@
 const items = [
-    {id:1, objetivo:"regadera"}, {id:2, objetivo:"jirafa"}, {id:3, objetivo:"elefante"},
-    {id:4, objetivo:"saxofón"}, {id:5, objetivo:"cuchillo"}, {id:6, objetivo:"maleta"},
-    {id:7, objetivo:"zapatillas"}, {id:8, objetivo:"perro"}, {id:9, objetivo:"casa de madera"},
-    {id:10, objetivo:"camión"}, {id:11, objetivo:"flores amarillas"}, {id:12, objetivo:"estatua"},
-    {id:13, objetivo:"coche"}, {id:14, objetivo:"gato"}, {id:15, objetivo:"peluche"},
-    {id:16, objetivo:"cofre"}, {id:17, objetivo:"tenedor"}, {id:18, objetivo:"botella"},
-    {id:19, objetivo:"mariposa"}, {id:20, objetivo:"motorista"}, {id:21, objetivo:"cañón"},
-    {id:22, objetivo:"lazo"}
+    {id:1, objetivo:"guitarra"}, {id:2, objetivo:"elefante"}, {id:3, objetivo:"planta"},
+    {id:4, objetivo:"chancla"}, {id:5, objetivo:"futbolín"}, {id:6, objetivo:"gorila"},
+    {id:7, objetivo:"sombrero"}, {id:8, objetivo:"conejo"}, {id:9, objetivo:"limón"},
+    {id:10, objetivo:"león"}, {id:11, objetivo:"medalla"}, {id:12, objetivo:"mariposa"},
+    {id:13, objetivo:"juguete (mr.potato)"}, {id:14, objetivo:"silla"}, {id:15, objetivo:"pimiento"},
+    {id:16, objetivo:"cerdo"}, {id:17, objetivo:"fichas de póker"}, {id:18, objetivo:"radiador"},
+    {id:19, objetivo:"camisa"}, {id:20, objetivo:"zapatilla"}, {id:21, objetivo:"peluche"},
+    {id:22, objetivo:"pandereta"}
 ];
 
 let chart = null;
